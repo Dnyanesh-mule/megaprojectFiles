@@ -1,0 +1,75 @@
+/* General body styling */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f9;
+    color: #333;
+    line-height: 1.6;
+  }
+  
+  /* Header styling */
+  h1 {
+    background-color: #4CAF50;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    margin: 0;
+    font-size: 2.5em;
+  }
+  
+  /* Styling for sections with headings */
+  h3 {
+    color: #4CAF50;
+    font-size: 1.5em;
+    margin-top: 20px;
+    text-align: center;
+  }
+  
+  /* General text and paragraph styling */
+  div {
+    max-width: 1100px;
+    margin: 20px auto;
+    padding: 15px;
+    background-color: white;
+    background-image:"url(pic2.jpg)";
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-size: 1.1em;
+    line-height: 1.8;
+  }
+  
+  /* List styling */
+  ul {
+    list-style-type:disc;
+    padding: 0;
+  }
+  
+  li {
+    padding: 5px 0;
+    margin-left: 20px;
+    font-size: 1.1em;
+    color: #555;
+  }
+  
+  
+  /* Additional styles for responsiveness */
+  @media screen and (max-width: 768px) {
+    h1 {
+      font-size: 2em;
+      padding: 15px;
+    }
+  
+    h3 {
+      font-size: 1.5em;
+    }
+  
+    div {
+      padding: 10px;
+    }
+  
+    ul {
+      margin-left: 10px;
+    }
+  }
+  
