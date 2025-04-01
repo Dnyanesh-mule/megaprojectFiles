@@ -1,6 +1,11 @@
 <?php
 require 'config.php';
 
+// Initialize variables
+$images = [];
+$success = '';
+$error = '';
+
 // Handle image deletion
 if (isset($_GET['delete'])) {
     $id = $_GET['delete'];
@@ -82,12 +87,12 @@ try {
     <div class="container">
         <h1>Image Management System</h1>
         
-        <?php if (isset($success)): ?>
-            <div class="success"><?= $success ?></div>
+        <?php if (!empty($success)): ?>
+            <div class="success"><?= htmlspecialchars($success) ?></div>
         <?php endif; ?>
         
-        <?php if (isset($error)): ?>
-            <div class="error"><?= $error ?></div>
+        <?php if (!empty($error)): ?>
+            <div class="error"><?= htmlspecialchars($error) ?></div>
         <?php endif; ?>
         
         <h2>Upload New Image</h2>
@@ -104,31 +109,31 @@ try {
         </form>
         
         <h2>Image Gallery</h2>
-        <?php if (count($images) > 0): ?>
+        <?php if (!empty($images)): ?>
             <table>
                 <thead>
                     <tr>
                         <th>ID</th>
                         <th>Thumbnail</th>
                         <th>Name</th>
-                        <th>Type</th>
+                        <!-- <th>Type</th>
                         <th>Size (KB)</th>
-                        <th>Uploaded</th>
+                        <th>Uploaded</th> -->
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php foreach ($images as $image): ?>
                         <tr>
-                            <td><?= $image['id'] ?></td>
-                            <td><img src="view_image.php?id=<?= $image['id'] ?>" class="thumbnail" alt="Thumbnail"></td>
+                            <td><?= htmlspecialchars($image['id']) ?></td>
+                            <td><img src="view_image.php?id=<?= htmlspecialchars($image['id']) ?>" class="thumbnail" alt="Thumbnail"></td>
                             <td><?= htmlspecialchars($image['name']) ?></td>
-                            <td><?= $image['mime_type'] ?></td>
+                            <!-- <td><?= htmlspecialchars($image['mime_type']) ?></td>
                             <td><?= round($image['size'] / 1024, 2) ?></td>
-                            <td><?= $image['created_at'] ?></td>
+                            <td><?= htmlspecialchars($image['created_at']) ?></td> -->
                             <td class="action-links">
-                                <a href="view_image.php?id=<?= $image['id'] ?>" target="_blank">View</a>
-                                <a href="index.php?delete=<?= $image['id'] ?>" onclick="return confirm('Are you sure you want to delete this image?')">Delete</a>
+                                <a href="view_image.php?id=<?= htmlspecialchars($image['id']) ?>" target="_blank">View</a>
+                                <a href="index.php?delete=<?= htmlspecialchars($image['id']) ?>" onclick="return confirm('Are you sure you want to delete this image?')">Delete</a>
                             </td>
                         </tr>
                     <?php endforeach; ?>
