@@ -47,6 +47,7 @@ $result = $conn->query($sql);
             max-width: 100%;
             height: auto;
             border-radius: 4px;
+            cursor: pointer;
         }
         .no-images {
             text-align: center;
@@ -54,23 +55,51 @@ $result = $conn->query($sql);
             color: #666;
             font-style: italic;
         }
+
+        /* Lightbox Modal Style */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            max-width: 90%;
+            max-height: 90%;
+        }
+        .modal img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: white;
+            font-size: 30px;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Image Gallery</h1>
-        
+
         <?php if ($result && $result->num_rows > 0): ?>
             <div class="image-gallery">
                 <?php while ($row = $result->fetch_assoc()): ?>
                     <div class="image-card">
-                        <?php 
-                        // Display the image directly from BLOB data
-                        echo '<img src="data:'.$row['mime_type'].';base64,'.base64_encode($row['image_data']).'" class="image-preview" alt="'.$row['name'].'">';
-                        ?>
+                        <a href="javascript:void(0);" onclick="openModal('<?php echo 'data:'.$row['mime_type'].';base64,'.base64_encode($row['image_data']); ?>')">
+                            <img src="data:<?php echo $row['mime_type']; ?>;base64,<?php echo base64_encode($row['image_data']); ?>" class="image-preview" alt="<?php echo htmlspecialchars($row['name']); ?>">
+                        </a>
                         <h3><?= htmlspecialchars($row['name']) ?></h3>
-                        <!-- <p>Type: <?= htmlspecialchars($row['mime_type']) ?></p>
-                        <p>Size: <?= round($row['size'] / 1024, 2) ?> KB</p> -->
                     </div>
                 <?php endwhile; ?>
             </div>
@@ -80,6 +109,39 @@ $result = $conn->query($sql);
             </div>
         <?php endif; ?>
     </div>
+
+    <!-- Lightbox Modal -->
+    <div id="imageModal" class="modal">
+        <span class="modal-close" onclick="closeModal()">&times;</span>
+        <div class="modal-content">
+            <img id="modalImage" src="" alt="Large Image">
+        </div>
+    </div>
+
+    <script>
+        // Open the modal and display the clicked image
+        function openModal(imageData) {
+            const modal = document.getElementById("imageModal");
+            const modalImage = document.getElementById("modalImage");
+            modal.style.display = "flex";
+            modalImage.src = imageData;
+        }
+
+        // Close the modal
+        function closeModal() {
+            const modal = document.getElementById("imageModal");
+            modal.style.display = "none";
+        }
+
+        // Close the modal if clicked outside the image
+        window.onclick = function(event) {
+            const modal = document.getElementById("imageModal");
+            if (event.target === modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+
     <?php 
     // Close connection
     if (isset($conn)) {
