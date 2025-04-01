@@ -1,9 +1,9 @@
 <?php
-require 'config.php';
+require 'certi_con.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['image'])) {
     $image = $_FILES['image'];
-    $name = $_POST['name'] ?? 'Unnamed Image';
+    $name = $_POST['name'] ?? 'Unnamed Certificate';
     
     // Validate the image
     $allowed_types = ['image/jpeg', 'image/png', 'image/gif'];
@@ -15,16 +15,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['image'])) {
         die('Upload failed with error code ' . $image['error']);
     }
     
-    // Check file size (limit to 5MB)
-    if ($image['size'] > 5 * 1024 * 1024) {
-        die('File size exceeds 5MB limit.');
-    }
-    
     // Read the image file
     $imageData = file_get_contents($image['tmp_name']);
     
     try {
-        $stmt = $pdo->prepare("INSERT INTO images (name, image_data, mime_type, size) VALUES (?, ?, ?, ?)");
+        $stmt = $pdo->prepare("INSERT INTO certificates (name, image_data, mime_type, size) VALUES (?, ?, ?, ?)");
         $stmt->execute([
             $name,
             $imageData,
@@ -32,13 +27,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['image'])) {
             $image['size']
         ]);
         
-        header('Location: index.php?success=1');
+        header('Location: certi_index.php?success=1');
         exit;
     } catch (PDOException $e) {
         die("Database error: " . $e->getMessage());
     }
 } else {
-    header('Location: index.php');
+    header('Location: certi_index.php');
     exit;
 }
 ?>

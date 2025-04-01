@@ -1,19 +1,19 @@
 <?php
-require 'config.php';
+require 'certi_con.php';
 
 if (!isset($_GET['id'])) {
-    die('No image ID specified');
+    die('No certificate ID specified');
 }
 
 $id = $_GET['id'];
 
 try {
-    $stmt = $pdo->prepare("SELECT image_data, mime_type FROM images WHERE id = ?");
+    $stmt = $pdo->prepare("SELECT image_data, mime_type FROM certificates WHERE id = ?");
     $stmt->execute([$id]);
     $image = $stmt->fetch(PDO::FETCH_ASSOC);
     
     if (!$image) {
-        die('Image not found');
+        die('Certificate not found');
     }
     
     header("Content-Type: " . $image['mime_type']);

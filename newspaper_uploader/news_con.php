@@ -7,9 +7,12 @@ $password = '';
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    error_reporting(E_ALL);
+    ini_set('display_errors', 1);
+
     
     // Verify table structure exists with all columns
-    $pdo->exec("CREATE TABLE IF NOT EXISTS images (
+    $pdo->exec("CREATE TABLE IF NOT EXISTS newspaper (
         id INT AUTO_INCREMENT PRIMARY KEY,
         name VARCHAR(255) NOT NULL,
         image_data LONGBLOB NOT NULL,
