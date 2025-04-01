@@ -25,7 +25,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['image'])) {
     
     try {
         $stmt = $pdo->prepare("INSERT INTO images (name, image_data, mime_type, size) VALUES (?, ?, ?, ?)");
-        $stmt->execute([$name, $imageData, $image['type'], $image['size']]);
+        $stmt->execute([
+            $name,
+            $imageData,
+            $image['type'],
+            $image['size']
+        ]);
         
         header('Location: index.php?success=1');
         exit;
